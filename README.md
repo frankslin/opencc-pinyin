@@ -3,7 +3,7 @@
 通過 [OpenCC](https://github.com/BYVoid/OpenCC) 的匹配機制，將繁體及簡體中文漢字轉換為漢語拼音。
 
 拼音數據來源：[mozillazg/pinyin-data](https://github.com/mozillazg/pinyin-data/blob/master/zdic.txt)（抓取自漢典網 zdic.net）。  
-多音字以 `zdic.txt` 中出現的順序為準，取第一個讀音。
+多音字（`zdic.txt` 一行中有多個讀音）會保留原字，不轉成拼音（例如：`和 -> 和`）。
 
 ---
 
@@ -42,20 +42,20 @@ opencc -c /path/to/opencc-pinyin/pinyin_notone.json -i input.txt -o output.txt
 ### 示例
 
 ```
-輸入（繁體）：愛龍漢字轉拼音
-帶聲調輸出：  àilónghànzìzhuǎnpīnyīn
-無聲調輸出：  ailonghanzizhuanpinyin
+輸入（多音字）：和你好世界
+帶聲調輸出：    和nǐ好shìjiè
+無聲調輸出：    和ni好shijie
 
-輸入（簡體）：汉字转拼音
-帶聲調輸出：  hànzìzhuǎnpīnyīn
-無聲調輸出：  hanzizhuanpinyin
+輸入（單音字）：山川日月
+帶聲調輸出：    shānchuānrìyuè
+無聲調輸出：    shanchuanriyue
 
 輸入（含 ü）：魚驢旅呂女
 帶聲調輸出：  yúlǘlǚlǚnǚ
 無聲調輸出：  yulülülünü   （ü ≠ u）
 
-輸入（混合）：中文 English 混合123
-無聲調輸出：  zhongwen English hunhe123
+輸入（混合）：山川 English 日月123
+無聲調輸出：  shanchuan English riyue123
 ```
 
 ### 注意事項
@@ -90,7 +90,7 @@ python3 gen_dict.py [zdic.txt 路徑] [輸出字典路徑]
 
 本項目利用 OpenCC 的**最長匹配**（Longest Match）字典查找機制，以兩步管道實現帶調或無調拼音輸出：
 
-1. **第一步**（`pinyin.txt`）：OpenCC 從左到右掃描輸入文本，將每個漢字替換為對應拼音（帶聲調）。未匹配的字符（英文、數字、標點等）原樣保留。
+1. **第一步**（`pinyin.txt`）：OpenCC 從左到右掃描輸入文本，將單音字替換為對應拼音（帶聲調）；多音字保留原字。未匹配的字符（英文、數字、標點等）原樣保留。
 2. **第二步**（`tones.txt`，僅 `pinyin_notone.json`）：將帶調韻母替換為無調形式（ā→a、ǎ→a … ǖ/ǘ/ǚ/ǜ→ü）。ü 不會被替換為 u。
 
 字典涵蓋以下 Unicode 範圍：
