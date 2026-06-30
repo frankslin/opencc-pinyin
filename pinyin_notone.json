@@ -18,7 +18,7 @@
     {
       "dict": {
         "type": "text",
-        "file": "tones.txt"
+        "file": "tone_removal.txt"
       }
     }
   ]
