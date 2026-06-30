@@ -3,7 +3,8 @@
 通過 [OpenCC](https://github.com/BYVoid/OpenCC) 的匹配機制，將繁體及簡體中文漢字轉換為漢語拼音。
 
 拼音數據來源：[mozillazg/pinyin-data](https://github.com/mozillazg/pinyin-data/blob/master/zdic.txt)（抓取自漢典網 zdic.net）。  
-多音字（`zdic.txt` 一行中有多個讀音）會保留原字，不轉成拼音（例如：`和 -> 和`）。
+多音字會保留 `zdic.txt` 原始讀音順序，並寫成 OpenCC 的多值格式（空格分隔）。  
+例如：`U+548C: hé,hè,huó,huò,hú` 會生成 `和\thé hè huó huò hú`，OpenCC 轉換時默認取第一個讀音。
 
 ---
 
@@ -42,9 +43,9 @@ opencc -c /path/to/opencc-pinyin/pinyin_notone.json -i input.txt -o output.txt
 ### 示例
 
 ```
-輸入（多音字）：和你好世界
-帶聲調輸出：    和nǐ好shìjiè
-無聲調輸出：    和ni好shijie
+輸入（多音字）：和好世界
+帶聲調輸出：    héhǎoshìjiè
+無聲調輸出：    hehaoshijie
 
 輸入（單音字）：山川日月
 帶聲調輸出：    shānchuānrìyuè
@@ -90,7 +91,7 @@ python3 gen_dict.py [zdic.txt 路徑] [輸出字典路徑]
 
 本項目利用 OpenCC 的**最長匹配**（Longest Match）字典查找機制，以兩步管道實現帶調或無調拼音輸出：
 
-1. **第一步**（`pinyin.txt`）：OpenCC 從左到右掃描輸入文本，將單音字替換為對應拼音（帶聲調）；多音字保留原字。未匹配的字符（英文、數字、標點等）原樣保留。
+1. **第一步**（`pinyin.txt`）：OpenCC 從左到右掃描輸入文本，將漢字替換為對應拼音（帶聲調）。對於多音字，字典值會保留多個讀音（空格分隔），而 OpenCC 轉換時默認使用第一個讀音。未匹配的字符（英文、數字、標點等）原樣保留。
 2. **第二步**（`tones.txt`，僅 `pinyin_notone.json`）：將帶調韻母替換為無調形式（ā→a、ǎ→a … ǖ/ǘ/ǚ/ǜ→ü）。ü 不會被替換為 u。
 
 字典涵蓋以下 Unicode 範圍：

@@ -4,7 +4,8 @@ Generate an OpenCC-format pinyin dictionary (pinyin.txt) from zdic.txt.
 
 Source data: https://github.com/mozillazg/pinyin-data/blob/master/zdic.txt
 
-For polyphonic characters (多音字), the character itself is used as output value.
+For polyphonic characters (多音字), all readings are kept in original order and
+joined by spaces.
 
 Usage:
     python gen_dict.py [zdic.txt] [pinyin.txt]
@@ -25,8 +26,8 @@ def parse_zdic(content: str) -> list[tuple[str, str]]:
     """Parse zdic.txt and return a list of (character, output_value) pairs.
 
     The order in zdic.txt is preserved.
-    For polyphonic characters (multiple comma-separated readings), the output
-    value is the original character itself.
+    For polyphonic characters (multiple comma-separated readings), all readings
+    are preserved and joined by spaces.
     """
     entries: list[tuple[str, str]] = []
     for line in content.splitlines():
@@ -39,10 +40,7 @@ def parse_zdic(content: str) -> list[tuple[str, str]]:
         codepoint_hex, pinyins_str = m.group(1), m.group(2)
         char = chr(int(codepoint_hex, 16))
         readings = pinyins_str.split(',')
-        if len(readings) > 1:
-            entries.append((char, char))
-        else:
-            entries.append((char, readings[0]))
+        entries.append((char, ' '.join(readings)))
     return entries
 
 
