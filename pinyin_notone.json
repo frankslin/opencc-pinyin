@@ -1,0 +1,17 @@
+{
+  "name": "Chinese to Pinyin without tones (漢字轉無聲調拼音)",
+  "conversion_chain": [
+    {
+      "dict": {
+        "type": "text",
+        "file": "pinyin.txt"
+      }
+    },
+    {
+      "dict": {
+        "type": "text",
+        "file": "tones.txt"
+      }
+    }
+  ]
+}

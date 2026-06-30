@@ -11,8 +11,10 @@
 
 | 文件 | 說明 |
 |------|------|
-| `pinyin.json` | OpenCC 轉換配置文件 |
+| `pinyin.json` | OpenCC 轉換配置文件（輸出**帶聲調**拼音） |
+| `pinyin_notone.json` | OpenCC 轉換配置文件（輸出**無聲調**拼音） |
 | `pinyin.txt` | OpenCC 文本格式字典（每行：`漢字 TAB 拼音`） |
+| `tones.txt` | 聲調去除字典（帶調韻母 → 無調韻母，ü 保持不變） |
 | `zdic.txt` | 原始拼音數據，來自 mozillazg/pinyin-data |
 | `gen_dict.py` | 從 `zdic.txt` 生成 `pinyin.txt` 的腳本 |
 
@@ -27,27 +29,33 @@
 使用 `-c` 參數指定配置文件的**絕對路徑**或相對路徑：
 
 ```sh
-# 從標準輸入讀取，輸出到標準輸出
+# 帶聲調（ā á ǎ à …）
 echo "你好世界" | opencc -c /path/to/opencc-pinyin/pinyin.json
 
+# 無聲調（ü 保持不變，不會變成 u）
+echo "你好世界" | opencc -c /path/to/opencc-pinyin/pinyin_notone.json
+
 # 從文件讀取，輸出到文件
-opencc -c /path/to/opencc-pinyin/pinyin.json -i input.txt -o output.txt
+opencc -c /path/to/opencc-pinyin/pinyin_notone.json -i input.txt -o output.txt
 ```
 
 ### 示例
 
 ```
 輸入（繁體）：愛龍漢字轉拼音
-輸出：        àilónghànzìzhuǎnpīnyīn
+帶聲調輸出：  àilónghànzìzhuǎnpīnyīn
+無聲調輸出：  ailonghanzizhuanpinyin
 
 輸入（簡體）：汉字转拼音
-輸出：        hànzìzhuǎnpīnyīn
+帶聲調輸出：  hànzìzhuǎnpīnyīn
+無聲調輸出：  hanzizhuanpinyin
 
-輸入（混合）：中文 English 混合
-輸出：        zhōngwén English hùnhé
+輸入（含 ü）：魚驢旅呂女
+帶聲調輸出：  yúlǘlǚlǚnǚ
+無聲調輸出：  yulülülünü   （ü ≠ u）
 
-輸入（標點）：你好！世界123
-輸出：        nǐhǎo！shìjiè123
+輸入（混合）：中文 English 混合123
+無聲調輸出：  zhongwen English hunhe123
 ```
 
 ### 注意事項
@@ -80,11 +88,10 @@ python3 gen_dict.py [zdic.txt 路徑] [輸出字典路徑]
 
 ## 算法說明
 
-本項目利用 OpenCC 的**最長匹配**（Longest Match）字典查找機制：
+本項目利用 OpenCC 的**最長匹配**（Longest Match）字典查找機制，以兩步管道實現帶調或無調拼音輸出：
 
-1. OpenCC 讀取配置文件 `pinyin.json`，加載 `pinyin.txt` 字典。
-2. 對輸入文本從左到右掃描，對每個位置嘗試字典中的最長匹配。
-3. 匹配到漢字時，輸出其對應拼音；未匹配的字符原樣輸出。
+1. **第一步**（`pinyin.txt`）：OpenCC 從左到右掃描輸入文本，將每個漢字替換為對應拼音（帶聲調）。未匹配的字符（英文、數字、標點等）原樣保留。
+2. **第二步**（`tones.txt`，僅 `pinyin_notone.json`）：將帶調韻母替換為無調形式（ā→a、ǎ→a … ǖ/ǘ/ǚ/ǜ→ü）。ü 不會被替換為 u。
 
 字典涵蓋以下 Unicode 範圍：
 
