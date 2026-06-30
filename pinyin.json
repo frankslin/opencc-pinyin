@@ -1,0 +1,11 @@
+{
+  "name": "Chinese to Pinyin (漢字轉拼音)",
+  "conversion_chain": [
+    {
+      "dict": {
+        "type": "text",
+        "file": "pinyin.txt"
+      }
+    }
+  ]
+}
