@@ -102,7 +102,6 @@ Examples that must be handled:
 
 - `ǹg ńg ňg ǹ ń ň` should become `ng ng ng n n n`.
 - `ḿ` should become `m`.
-- `ă` should become `a`.
 
 ## Validation Commands
 
