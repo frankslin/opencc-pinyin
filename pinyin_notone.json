@@ -12,6 +12,12 @@
     {
       "dict": {
         "type": "text",
+        "file": "phrase_pinyin.txt"
+      }
+    },
+    {
+      "dict": {
+        "type": "text",
         "file": "pinyin.txt"
       }
     },

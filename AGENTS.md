@@ -5,16 +5,16 @@
 This repository provides OpenCC text dictionaries and configurations for converting Chinese characters to Hanyu Pinyin.
 
 - `pinyin.json` converts Chinese characters to pinyin with tone marks.
-- `pinyin_notone.json` runs OpenCC conversion with CJK compatibility normalization, then `pinyin.txt`, then `tone_removal.txt` to remove tone marks.
+- `pinyin_notone.json` runs OpenCC conversion with CJK compatibility normalization, then `phrase_pinyin.txt`, then `pinyin.txt`, then `tone_removal.txt` to remove tone marks.
 - `third_party/pinyin-data/zdic.txt` is the upstream source data from `mozillazg/pinyin-data`, scraped from zdic.net.
 - `third_party/pinyin-data/LICENSE` is the upstream pinyin-data MIT license.
-- `third_party/phrase-pinyin-data/large_pinyin.txt` is the upstream merged phrase-pinyin data from `mozillazg/phrase-pinyin-data`. It is currently vendored as source material for future polyphonic phrase filtering and is not wired into the OpenCC configs.
+- `third_party/phrase-pinyin-data/large_pinyin.txt` is the upstream merged phrase-pinyin data from `mozillazg/phrase-pinyin-data`. It is the source data for generating `phrase_pinyin.txt`.
 - `third_party/phrase-pinyin-data/LICENSE` is the upstream phrase-pinyin-data MIT license.
 - `third_party/OpenCC/CJK_Compatibility_Ideographs.txt` is vendored from OpenCC and is used as the CJK Compatibility Ideograph normalization pre-pass.
 - `third_party/OpenCC/LICENSE` is the upstream OpenCC Apache-2.0 license.
 - `gen_dict.py` generates `pinyin.txt` from `third_party/pinyin-data/zdic.txt`.
 - `gen_phrase_dict.py` generates `phrase_pinyin.txt` from `third_party/phrase-pinyin-data/large_pinyin.txt`, keeping only multi-character phrases that contain at least one polyphonic character from `pinyin.txt`.
-- `phrase_pinyin.txt` is an OpenCC phrase dictionary source for future polyphonic phrase overrides. It is not wired into `pinyin.json` or `pinyin_notone.json` yet.
+- `phrase_pinyin.txt` is an OpenCC phrase dictionary for polyphonic phrase overrides. It must appear before `pinyin.txt` in both OpenCC configs.
 - `tone_removal.txt` maps tone-marked pinyin letters to their no-tone forms. Keep `ü` as `ü`; do not normalize it to `u`.
 
 This is a character-level dictionary. It does not segment words or disambiguate polyphonic characters by context. For polyphonic entries, preserve the reading order from `third_party/pinyin-data/zdic.txt`; OpenCC will use the first candidate by default.

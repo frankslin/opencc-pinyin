@@ -3,10 +3,10 @@
 通過 [OpenCC](https://github.com/BYVoid/OpenCC) 的匹配機制，將繁體及簡體中文漢字轉換為漢語拼音。
 
 拼音數據來源：[mozillazg/pinyin-data](https://github.com/mozillazg/pinyin-data/blob/master/zdic.txt)（抓取自漢典網 zdic.net），放在 `third_party/pinyin-data/`，並保留其上游授權文件。
-詞語拼音數據來源：[mozillazg/phrase-pinyin-data](https://github.com/mozillazg/phrase-pinyin-data)，放在 `third_party/phrase-pinyin-data/`，並保留其上游授權文件；目前僅作為後續多音字短語過濾的原始資料，尚未接入 OpenCC 配置。
+詞語拼音數據來源：[mozillazg/phrase-pinyin-data](https://github.com/mozillazg/phrase-pinyin-data)，放在 `third_party/phrase-pinyin-data/`，並保留其上游授權文件；本項目從中過濾涉及多音字的詞語，生成 OpenCC 短語拼音詞典。
 多音字會保留 `third_party/pinyin-data/zdic.txt` 原始讀音順序，並寫成 OpenCC 的多值格式（空格分隔）。
 例如：`U+548C: hé,hè,huó,huò,hú` 會生成 `和\thé hè huó huò hú`，OpenCC 轉換時默認取第一個讀音。
-`phrase_pinyin.txt` 是從上游詞語拼音中過濾出的多音字短語詞典；目前尚未接入 `pinyin.json` 或 `pinyin_notone.json`。
+`phrase_pinyin.txt` 是從上游詞語拼音中過濾出的多音字短語詞典，會在 `pinyin.txt` 之前執行，用詞語讀音覆蓋單字多音字默認讀音。
 
 ---
 
@@ -122,10 +122,9 @@ python3 ../OpenCC/data/scripts/sort.py phrase_pinyin.txt phrase_pinyin.txt
 本項目利用 OpenCC 的**最長匹配**（Longest Match）字典查找機制，以正規化前處理和字典管道實現帶調或無調拼音輸出：
 
 1. **正規化前處理**（`third_party/OpenCC/CJK_Compatibility_Ideographs.txt`）：先將 CJK 兼容表意文字映射到 UnicodeData 對應的統一表意文字，例如兼容字形會先歸一化，再進入拼音字典查找。
-2. **拼音轉換**（`pinyin.txt`）：OpenCC 從左到右掃描輸入文本，將漢字替換為對應拼音（帶聲調）。對於多音字，字典值會保留多個讀音（空格分隔），而 OpenCC 轉換時默認使用第一個讀音。未匹配的字符（英文、數字、標點等）原樣保留。
-3. **去聲調轉換**（`tone_removal.txt`，僅 `pinyin_notone.json`）：將帶調韻母替換為無調形式（ā→a、ǎ→a … ǖ/ǘ/ǚ/ǜ→ü）。ü 不會被替換為 u。
-
-`phrase_pinyin.txt` 尚未加入轉換鏈。若後續接入，應放在 `pinyin.txt` 之前，利用 OpenCC 最長匹配讓詞語讀音覆蓋單字多音字默認讀音。
+2. **短語拼音轉換**（`phrase_pinyin.txt`）：先匹配涉及多音字的多字詞語，例如 `重庆` 轉為 `chóngqìng`，用詞語讀音覆蓋單字默認讀音。
+3. **單字拼音轉換**（`pinyin.txt`）：再將未被短語詞典匹配的漢字替換為對應拼音（帶聲調）。對於多音字，字典值會保留多個讀音（空格分隔），而 OpenCC 轉換時默認使用第一個讀音。未匹配的字符（英文、數字、標點等）原樣保留。
+4. **去聲調轉換**（`tone_removal.txt`，僅 `pinyin_notone.json`）：將帶調韻母替換為無調形式（ā→a、ǎ→a … ǖ/ǘ/ǚ/ǜ→ü）。ü 不會被替換為 u。
 
 字典涵蓋以下 Unicode 範圍：
 
