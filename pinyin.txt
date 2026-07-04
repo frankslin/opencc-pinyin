@@ -450,7 +450,7 @@
 㙉	tiǎn
 㙊	cháng zhàng
 㙍	duō
-㙎	wēi
+㙎	wēi
 㙏	fù
 㙐	duǒ
 㙑	yǔ
@@ -2166,7 +2166,7 @@
 㻖	dài
 㻗	bèi
 㻝	là
-㻞	bīn bān
+㻞	bīn bān
 㻟	suí
 㻠	tú
 㻡	dié jué
@@ -4359,7 +4359,7 @@
 䤺	yǐn
 䤻	duò
 䤼	xiàn
-䤾	tāo
+䤾	tāo
 䤿	qiè
 䥀	chǎn
 䥁	hán
@@ -4681,10 +4681,10 @@
 䫋	tuí
 䫌	pǐ
 䫍	fǔ
-䫎	zhuō
+䫎	zhuō
 䫏	qī
 䫐	lín
-䫑	yī qī
+䫑	yī qī
 䫒	mén
 䫓	wú
 䫔	qì qiè xì
@@ -5141,7 +5141,7 @@
 䳞	běng
 䳟	kòu míng mǒ
 䳠	chuí ruì zhù
-䳡	yàn zhuī
+䳡	yàn zhuī
 䳢	qí
 䳣	yuán
 䳧	hóu
@@ -6180,7 +6180,7 @@
 児	ér
 兑	duì ruì yuè
 兒	ér
-兓	qīn jīn zàn
+兓	qīn jīn zàn
 兔	tù
 兕	sì
 兖	yǎn
@@ -8303,7 +8303,7 @@
 妛	chī
 妜	yuè jué
 妝	zhuāng
-妞	niū hào
+妞	niū hào
 妟	yàn
 妠	nà nàn
 妡	xīn
@@ -10769,11 +10769,11 @@
 挽	wǎn
 挾	xié jiā
 挿	chā
-捀	péng féng
+捀	péng féng
 捁	jiǎo kù
 捂	wǔ
 捃	jùn
-捄	jiù jū qiú
+捄	jiù jū qiú
 捅	tǒng
 捆	kǔn
 捇	huò chì
@@ -40634,8 +40634,8 @@
 𩽴	nián
 𩽵	lǐ
 𩽷	bà
-𩽾	ān
-𩾌	kāng
+𩽾	ān
+𩾌	kāng
 𩾒	xiāo
 𩾓	xiāo
 𩾔	cì

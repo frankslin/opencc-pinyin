@@ -974,7 +974,7 @@ U+364A: cháng,zhàng  # 㙊
 # U+364B: ""  # 㙋
 # U+364C: ""  # 㙌
 U+364D: duō  # 㙍
-U+364E: wēi  # 㙎
+U+364E: wēi  # 㙎
 U+364F: fù  # 㙏
 U+3650: duǒ  # 㙐
 U+3651: yǔ  # 㙑
@@ -3166,7 +3166,7 @@ U+3ED7: bèi  # 㻗
 # U+3EDB: ""  # 㻛
 # U+3EDC: ""  # 㻜
 U+3EDD: là  # 㻝
-U+3EDE: bīn,bān  # 㻞
+U+3EDE: bīn,bān  # 㻞
 U+3EDF: suí  # 㻟
 U+3EE0: tú  # 㻠
 U+3EE1: dié,jué  # 㻡
@@ -5822,7 +5822,7 @@ U+493A: yǐn  # 䤺
 U+493B: duò  # 䤻
 U+493C: xiàn  # 䤼
 # U+493D: ""  # 䤽
-U+493E: tāo  # 䤾
+U+493E: tāo  # 䤾
 U+493F: qiè  # 䤿
 U+4940: chǎn  # 䥀
 U+4941: hán  # 䥁
@@ -6222,10 +6222,10 @@ U+4ACA: bó,péi  # 䫊
 U+4ACB: tuí  # 䫋
 U+4ACC: pǐ  # 䫌
 U+4ACD: fǔ  # 䫍
-U+4ACE: zhuō  # 䫎
+U+4ACE: zhuō  # 䫎
 U+4ACF: qī  # 䫏
 U+4AD0: lín  # 䫐
-U+4AD1: yī,qī  # 䫑
+U+4AD1: yī,qī  # 䫑
 U+4AD2: mén  # 䫒
 U+4AD3: wú  # 䫓
 U+4AD4: qì,qiè,xì  # 䫔
@@ -6753,7 +6753,7 @@ U+4CDD: bù,diào,fǔ,pǒu  # 䳝
 U+4CDE: běng  # 䳞
 U+4CDF: kòu,míng,mǒ  # 䳟
 U+4CE0: chuí,ruì,zhù  # 䳠
-U+4CE1: yàn,zhuī  # 䳡
+U+4CE1: yàn,zhuī  # 䳡
 U+4CE2: qí  # 䳢
 U+4CE3: yuán  # 䳣
 # U+4CE4: ""  # 䳤
@@ -7829,7 +7829,7 @@ U+514F: cháng,zhǎng  # 兏
 U+5150: ér  # 児
 U+5151: duì,ruì,yuè  # 兑
 U+5152: ér  # 兒
-U+5153: qīn,jīn,zàn  # 兓
+U+5153: qīn,jīn,zàn  # 兓
 U+5154: tù  # 兔
 U+5155: sì  # 兕
 U+5156: yǎn  # 兖
@@ -9952,7 +9952,7 @@ U+599A: fǒu,pēi,pī  # 妚
 U+599B: chī  # 妛
 U+599C: yuè,jué  # 妜
 U+599D: zhuāng  # 妝
-U+599E: niū,hào  # 妞
+U+599E: niū,hào  # 妞
 U+599F: yàn  # 妟
 U+59A0: nà,nàn  # 妠
 U+59A1: xīn  # 妡
@@ -12418,11 +12418,11 @@ U+633C: ruó  # 挼
 U+633D: wǎn  # 挽
 U+633E: xié,jiā  # 挾
 U+633F: chā  # 挿
-U+6340: péng,féng  # 捀
+U+6340: péng,féng  # 捀
 U+6341: jiǎo,kù  # 捁
 U+6342: wǔ  # 捂
 U+6343: jùn  # 捃
-U+6344: jiù,jū,qiú  # 捄
+U+6344: jiù,jū,qiú  # 捄
 U+6345: tǒng  # 捅
 U+6346: kǔn  # 捆
 U+6347: huò,chì  # 捇
@@ -69316,7 +69316,7 @@ U+29F77: bà  # 𩽷
 # U+29F7B: ""  # 𩽻
 # U+29F7C: ""  # 𩽼
 # U+29F7D: ""  # 𩽽
-U+29F7E: ān  # 𩽾
+U+29F7E: ān  # 𩽾
 # U+29F7F: ""  # 𩽿
 # U+29F80: ""  # 𩾀
 # U+29F81: ""  # 𩾁
@@ -69330,7 +69330,7 @@ U+29F7E: ān  # 𩽾
 # U+29F89: ""  # 𩾉
 # U+29F8A: ""  # 𩾊
 # U+29F8B: ""  # 𩾋
-U+29F8C: kāng  # 𩾌
+U+29F8C: kāng  # 𩾌
 # U+29F8D: ""  # 𩾍
 # U+29F8E: ""  # 𩾎
 # U+29F8F: ""  # 𩾏
