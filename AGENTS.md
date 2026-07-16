@@ -14,6 +14,8 @@ This repository provides OpenCC text dictionaries and configurations for convert
 - `third_party/OpenCC/LICENSE` is the upstream OpenCC Apache-2.0 license.
 - `gen_dict.py` generates `pinyin.txt` from `third_party/pinyin-data/zdic.txt`.
 - `gen_phrase_dict.py` generates `phrase_pinyin.txt` from `third_party/phrase-pinyin-data/large_pinyin.txt`, keeping only multi-character phrases that contain at least one polyphonic character from `pinyin.txt`.
+- `gen_packed_dict.py` generates the packed dataset under `dist/php/` from `pinyin.txt` and `tone_removal.txt`: a tone-marked syllable value table (`syllables.php`), the tone-stripping map (`tone_map.php`, marked letter => base letter), uint16-per-codepoint binary strips (`bmp.bin` for U+3400..U+9FFF, `supp.bin` for U+20000..U+2EBEF; `0xFFFF` = no reading), out-of-strip entries (`extra.php`), and the strip layout (`meta.php`). Only the first reading of each character is kept, **with tone marks**; toneless output is produced on the loader side via `tone_map.php`, so the binary strips (the bulk of the dataset) are unchanged from the toneless layout — their size depends only on the codepoint ranges, not on whether syllables carry tones. The dataset is complete and policy-free — every character in `pinyin.txt` is included; input policies (script or variant restrictions) belong on the consumer side, not in this data.
+- `php/src/PinyinData.php` (composer package `frankslin/opencc-pinyin`, class `OpenccPinyin\PinyinData`) is the O(1) codepoint-addressed loader over `dist/php/`. Accessors (`lookup`, `syllables`, `toPinyin`) return tone-marked pinyin by default and accept a `$tone = false` argument for the toneless form (ü kept as ü). `setOverrides(char => reading)` registers caller overrides that win over the packed data (for pinning a polyphone's reading or supplying a missing one); overrides honor the tone flag. `php/verify_packed_dict.php` round-trips every `pinyin.txt` entry against the loader in both tone modes and checks the override path; run it after regenerating `dist/php/`.
 - `phrase_pinyin.txt` is an OpenCC phrase dictionary for polyphonic phrase overrides. It must appear before `pinyin.txt` in both OpenCC configs.
 - `tone_removal.txt` maps tone-marked pinyin letters to their no-tone forms. Keep `ü` as `ü`; do not normalize it to `u`.
 
@@ -30,6 +32,7 @@ The canonical data flow is:
 5. Run `python3 gen_phrase_dict.py` to regenerate `phrase_pinyin.txt` from `third_party/phrase-pinyin-data/large_pinyin.txt`.
 6. Keep `third_party/phrase-pinyin-data/large_pinyin.txt` as upstream source material.
 7. Use OpenCC's dictionary sort tool for OpenCC text dictionaries.
+8. Run `python3 gen_packed_dict.py` to regenerate `dist/php/` whenever `pinyin.txt` or `tone_removal.txt` changes, then verify with `php php/verify_packed_dict.php`.
 
 Do not hand-edit `pinyin.txt` for source-data changes unless there is a narrow, intentional reason. Prefer changing `third_party/pinyin-data/zdic.txt` and regenerating.
 

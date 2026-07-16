@@ -27,6 +27,11 @@
 | `third_party/OpenCC/LICENSE` | 上游 OpenCC 的 Apache License 2.0 授權文件 |
 | `gen_dict.py` | 從 `third_party/pinyin-data/zdic.txt` 生成 `pinyin.txt` 的腳本 |
 | `gen_phrase_dict.py` | 從 `third_party/phrase-pinyin-data/large_pinyin.txt` 生成 `phrase_pinyin.txt` 的腳本 |
+| `gen_packed_dict.py` | 從 `pinyin.txt` + `tone_removal.txt` 生成 `dist/php/` 緊湊數據集的腳本（僅保留**帶聲調**首讀音；數據完整無政策過濾，輸入限制屬於使用方職責） |
+| `dist/php/` | 緊湊數據集：帶聲調音節值表 `syllables.php`（1436 條）＋ 去聲調映射 `tone_map.php` ＋ 每碼位 uint16 索引的二進制條帶 `bmp.bin`（U+3400–U+9FFF）/`supp.bin`（U+20000–U+2EBEF，`0xFFFF`=無讀音）＋ 條帶外零星條目 `extra.php` ＋ 佈局 `meta.php` |
+| `php/src/PinyinData.php` | Composer 包 `frankslin/opencc-pinyin` 的 O(1) 碼位定址查詢類（`OpenccPinyin\PinyinData`：`lookup()`/`syllables()`/`toPinyin()` 預設帶聲調、可傳 `$tone=false` 轉無聲調；`setOverrides()` 手動覆蓋）。詳見 [`php/README.md`](php/README.md) |
+| `php/tests/`、`phpunit.xml.dist` | PHPUnit 測試套件（`composer test`）；`.github/workflows/php-tests.yml` 在 PHP 8.2–8.5 上跑測試與全量數據回歸 |
+| `php/verify_packed_dict.php` | 全量往返驗證腳本：`pinyin.txt` 每一條對照 loader 輸出 |
 
 ---
 
