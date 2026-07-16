@@ -1,12 +1,47 @@
 # opencc-pinyin
 
-通過 [OpenCC](https://github.com/BYVoid/OpenCC) 的匹配機制，將繁體及簡體中文漢字轉換為漢語拼音。
+將繁體及簡體中文漢字轉換為漢語拼音。本倉庫提供**兩種用法**：
 
-拼音數據來源：[mozillazg/pinyin-data](https://github.com/mozillazg/pinyin-data/blob/master/zdic.txt)（抓取自漢典網 zdic.net，[CC0 1.0](https://zdic.net/terms/)），放在 `third_party/pinyin-data/`，並保留其上游授權文件。
+- **PHP Composer 套件 [`frankslin/opencc-pinyin`](#php-套件composer)** —— O(1) 碼位定址的查詢庫，帶聲調／無聲調可選，無需安裝 OpenCC 執行檔。
+- **OpenCC 字典與配置** —— 通過 [OpenCC](https://github.com/BYVoid/OpenCC) 的最長匹配機制做字符級轉換（[CLI 用法](#opencc-字典用法cli)）。
+
+兩者共用同一份拼音資料。拼音數據來源：[mozillazg/pinyin-data](https://github.com/mozillazg/pinyin-data/blob/master/zdic.txt)（抓取自漢典網 zdic.net，[CC0 1.0](https://zdic.net/terms/)），放在 `third_party/pinyin-data/`，並保留其上游授權文件。
 詞語拼音數據來源：[mozillazg/phrase-pinyin-data](https://github.com/mozillazg/phrase-pinyin-data)，放在 `third_party/phrase-pinyin-data/`，並保留其上游授權文件；本項目從中過濾涉及多音字的詞語，生成 OpenCC 短語拼音詞典。
 多音字會保留 `third_party/pinyin-data/zdic.txt` 原始讀音順序，並寫成 OpenCC 的多值格式（空格分隔）。
 例如：`U+548C: hé,hè,huó,huò,hú` 會生成 `和\thé hè huó huò hú`，OpenCC 轉換時默認取第一個讀音。
 `phrase_pinyin.txt` 是從上游詞語拼音中過濾出的多音字短語詞典，會在 `pinyin.txt` 之前執行，用詞語讀音覆蓋單字多音字默認讀音。
+
+---
+
+## PHP 套件（Composer）
+
+O(1) 碼位定址的漢語拼音查詢庫：資料打包在 `dist/php/`，配一個純 PHP loader，**預設輸出帶聲調**拼音、可一鍵轉無聲調，零外部依賴（PHP ≥ 8.2 與 `ext-mbstring`，不依賴 OpenCC 執行檔）。涵蓋 `pinyin.txt` 全部約 42,000 個漢字，只取每字**首讀音**，不做分詞或上下文消歧。
+
+完整 API、資料結構、測試與**英文說明**見 [`php/README.md`](php/README.md)。
+
+### 安裝
+
+```bash
+composer require frankslin/opencc-pinyin
+```
+
+### 快速上手
+
+```php
+use OpenccPinyin\PinyinData;
+
+// 單字（預設帶聲調，傳 false 得無聲調；ü 保持不變）
+PinyinData::lookup('蘇');              // "sū"
+PinyinData::lookup('蘇', false);       // "su"
+
+// 整段（預設不加分隔符，需空格請傳 ' '）
+PinyinData::toPinyin('蘇軾與蘇轍');      // "sūshìyǔsūzhé"
+PinyinData::toPinyin('蘇軾與蘇轍', ' '); // "sū shì yǔ sū zhé"
+
+// 手動覆蓋多音字首讀音（優先於打包資料）
+PinyinData::setOverrides(['重' => 'chóng']);
+PinyinData::lookup('重');              // "chóng"（未覆蓋時為 "zhòng"）
+```
 
 ---
 
@@ -35,7 +70,9 @@
 
 ---
 
-## 使用方法
+## OpenCC 字典用法（CLI）
+
+以下為 OpenCC 命令行用法；只想在 PHP 裡查拼音的話用上面的 [PHP 套件](#php-套件composer)即可，無需 OpenCC。
 
 **前提條件**：已安裝 OpenCC CLI 工具，版本 ≥ 1.3.2。
 
